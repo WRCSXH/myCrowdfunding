@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>atcrowdfunding07-member-parent</artifactId>
+        <groupId>com.atguigu.crowd</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>atcrowdfunding16-member-zuul</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+        </dependency>
+        <!-- 引入springboot&redis 整合场景-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!-- 引入springboot&springsession 整合场景-->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+        <!-- 引入自定义工具类-->
+        <dependency>
+            <groupId>com.atguigu.crowd</groupId>
+            <artifactId>atcrowdfunding05-common-util</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--
+            通过Zuul 访问所有工程，在成功登录之后，要前往会员中心页面。
+            这时，在ZuulFilter 中需要从Session 域读取MemberLoginVO 对象。SpringSession 会从Redis 中加载相关信息。
+            相关信息中包含了MemberLoginVO 的全类名。
+            需要根据这个全类名找到MemberLoginVO 类，用来反序列化。
+            可是我们之前没有让Zuul 工程依赖entity 工程，所以找不到MemberLoginVO 类。
+            抛找不到类异常。
+        -->
+        <dependency>
+            <groupId>com.atguigu.crowd</groupId>
+            <artifactId>atcrowdfunding09-member-entity</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>
